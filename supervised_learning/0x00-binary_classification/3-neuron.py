@@ -41,8 +41,5 @@ class Neuron:
     def cost(self, Y, A):
         """ Calculates the cost of the neuron. """
         loss = -(Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A))
-        c = 0
-        for elem in loss[0]:
-            c += elem
-        c /= Y.shape[1]
+        c = np.sum(loss[0]) / Y.shape[1]
         return c
