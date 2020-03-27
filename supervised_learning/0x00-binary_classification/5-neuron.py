@@ -47,11 +47,11 @@ class Neuron:
     def evaluate(self, X, Y):
         """ Evaluates the output of the neuron. """
         A = self.forward_prop(X)
-        A = np.where(A >= 0.5, 1, 0)
         c = self.cost(Y, A)
+        A = np.where(A >= 0.5, 1, 0)
         return (A, c)
 
     def gradient_descent(self, X, Y, A, alpha=0.05):
         """ Calculates the gradient descent. """
-        self.__W = self.__W - alpha * np.matmul(A - Y, X.T)
+        self.__W = self.__W - alpha * np.matmul(A - Y, X.T) / A.shape[1]
         self.__b = self.__b - np.sum(alpha * (A - Y)) / A.shape[1]
