@@ -75,9 +75,10 @@ class NeuralNetwork:
 
     def gradient_descent(self, X, Y, A1, A2, alpha=0.05):
         """ Calculates the gradient descent. """
+        oldW2 = self.W2
         self.__W2 = self.W2 - alpha * np.matmul(A2 - Y, A1.T) / A2.shape[1]
         self.__b2 = self.b2 - alpha * np.sum(A2 - Y) / A2.shape[1]
-        dA1 = np.matmul(self.W2.T, (A2 - Y))
+        dA1 = np.matmul(oldW2.T, (A2 - Y))
         self.__W1 = self.W1 - alpha * np.matmul(dA1 * A1 * (1 - A1), X.T) /\
             A2.shape[1]
         self.__b1 = self.b1 - alpha * np.sum(dA1 * A1 * (1 - A1), axis=1,
