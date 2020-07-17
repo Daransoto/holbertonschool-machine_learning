@@ -72,4 +72,3 @@ def cat_matrices(mat1, mat2, axis=0):
     for i in range(len(auxM1)):
         auxM1[i].extend(auxM2[i])
     return cpMat1
-
