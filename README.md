@@ -1,22 +1,18 @@
-# Title
+# holbertonschool-machine_learning
 
-## 
+##
 
 ### Description
 
-This project is about 
+This repository is for solving the projects of the machine learning specialization of Holberton School, and learning about all the topics it includes.
 
-### Mandatory Tasks
+### Folders
 
-| File | Description |
+| Folder | Description |
 | ------ | ------ |
-| []() |  |
+| [math](math) | Implementing math functions like matrix concatenation, addition, etc |
+| [supervised_learning](supervised_learning) | Implementing neurons and neural networks from scratch. |
 
-### Advanced Tasks
-
-| File | Description |
-| ------ | ------ |
-| []() |  |
 
 ## Author
 
