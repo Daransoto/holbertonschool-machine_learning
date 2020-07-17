@@ -47,10 +47,15 @@ def cat_matrices(mat1, mat2, axis=0):
     """
     shape1 = matrix_shape(mat1)
     shape2 = matrix_shape(mat2)
-    dim1 = len(shape1) - 1
-    dim2 = len(shape2) - 1
-    if not dim1 == dim2 or shape1[dim1 - axis] != shape2[dim1 - axis]:
+    dim1 = len(shape1)
+    dim2 = len(shape2)
+    if not dim1 == dim2:
         return None
+    for i in range(dim1):
+        if i == axis:
+            continue
+        if shape1[i] != shape2[i]:
+            return None
     cpMat1 = deepcopy(mat1)
     cpMat2 = deepcopy(mat2)
     auxM1 = [cpMat1]
@@ -67,3 +72,4 @@ def cat_matrices(mat1, mat2, axis=0):
     for i in range(len(auxM1)):
         auxM1[i].extend(auxM2[i])
     return cpMat1
+
