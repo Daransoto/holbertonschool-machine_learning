@@ -21,13 +21,11 @@ class Poisson:
             mean = 0.
             count = 0
             for element in data:
-                if type(element) not in {int, float}:
-                    raise TypeError('Each element in data must be a number')
                 count += 1
                 mean += element
             self.lambtha = mean / count
         else:
-            if type(lambtha) not in {int, float} or lambtha < 0:
+            if type(lambtha) not in {int, float} or lambtha <= 0:
                 raise ValueError('lambtha must be a positive value')
             self.lambtha = float(lambtha)
 
