@@ -27,7 +27,7 @@ class Poisson:
                 mean += element
             self.lambtha = mean / count
         else:
-            if type(lambtha) not in {int, float} or lambtha <= 0:
+            if type(lambtha) not in {int, float} or lambtha < 0:
                 raise ValueError('lambtha must be a positive value')
             self.lambtha = float(lambtha)
 
