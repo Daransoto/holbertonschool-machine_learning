@@ -51,14 +51,3 @@ class Poisson:
         for i in range(0, k + 1):
             summation += (self.lambtha ** i / Poisson.fact(i))
         return Poisson.e ** -self.lambtha * summation
-    """
-    @staticmethod
-    def fact(n):
-        """ Calculates the factorial of a number. """
-        if type(n) != int or n < 0:
-            raise ValueError('n must be a positive integer or 0.')
-        ans = 1
-        for i in range(2, n + 1):
-            ans *= i
-        return ans
-    """
