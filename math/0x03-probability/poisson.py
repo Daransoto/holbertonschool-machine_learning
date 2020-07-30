@@ -8,11 +8,6 @@ class Poisson:
     e = 2.7182818285
 
     def __init__(self, data=None, lambtha=1.):
-        """
-        Constructor of the class. Sets the instance attribute lambtha as float.
-        data is a list of the data to be used to estimate the distribution.
-        lambtha is the expected number of occurences in a given time frame.
-        """
         if data:
             if type(data) != list:
                 raise TypeError('data must be a list')
@@ -25,7 +20,7 @@ class Poisson:
                     raise TypeError('Each element in data must be a number')
                 count += 1
                 mean += element
-            self.lambtha = float(mean / count)
+            self.lambtha = mean / count
         else:
             if type(lambtha) not in {int, float} or lambtha <= 0:
                 raise ValueError('lambtha must be a positive value')
