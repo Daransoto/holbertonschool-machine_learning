@@ -12,7 +12,7 @@ class Binomial:
         n is the number of Bernoulli trials (int).
         p is the probability of a success (float).
         """
-        if data:
+        if data is not None:
             if type(data) != list:
                 raise TypeError('data must be a list')
             if len(data) < 2:

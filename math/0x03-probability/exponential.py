@@ -13,7 +13,7 @@ class Exponential:
         data is a list of the data to be used to estimate the distribution.
         lambtha is the expected number of occurences in a given time frame.
         """
-        if data:
+        if data is not None:
             if type(data) != list:
                 raise TypeError('data must be a list')
             if len(data) < 2:
