@@ -13,7 +13,7 @@ class Poisson:
         data is a list of the data to be used to estimate the distribution.
         lambtha is the expected number of occurences in a given time frame.
         """
-        if data:
+        if data is not None:
             if type(data) != list:
                 raise TypeError("data must be a list")
             if len(data) < 2:
@@ -51,3 +51,13 @@ class Poisson:
         for i in range(0, k + 1):
             summation += (self.lambtha ** i / Poisson.fact(i))
         return Poisson.e ** -self.lambtha * summation
+
+    @staticmethod
+    def fact(n):
+        """ Calculates the factorial of a number. """
+        if type(n) != int or n < 0:
+            raise ValueError('n must be a positive integer or 0.')
+        ans = 1
+        for i in range(2, n + 1):
+            ans *= i
+        return ans
