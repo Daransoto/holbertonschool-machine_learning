@@ -25,11 +25,11 @@ class Poisson:
                     raise TypeError('Each element in data must be a number')
                 count += 1
                 mean += element
-            self.lambtha = mean / count
+            self.lambtha = float(mean / count)
         else:
             if type(lambtha) not in {int, float} or lambtha <= 0:
                 raise ValueError('lambtha must be a positive value')
-            self.lambtha = lambtha
+            self.lambtha = float(lambtha)
 
     def pmf(self, k):
         """
