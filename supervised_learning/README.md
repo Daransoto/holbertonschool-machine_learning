@@ -1,22 +1,18 @@
-# Title
+# Supervised learning
 
-## 
+##
 
 ### Description
 
-This project is about 
+This folder has projects about supervised learning like deep neural networks.
 
-### Mandatory Tasks
+### Folders
 
-| File | Description |
+| Folder | Description |
 | ------ | ------ |
-| []() |  |
+| [0x00-binary_classification](0x00-binary_classification) | Creating neurons and neural networks. |
+| [data](data) | Datasets for binary classification of handwritten digits of 0 and 1. |
 
-### Advanced Tasks
-
-| File | Description |
-| ------ | ------ |
-| []() |  |
 
 ## Author
 
