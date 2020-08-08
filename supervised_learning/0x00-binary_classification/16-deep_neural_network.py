@@ -18,7 +18,7 @@ class DeepNeuralNetwork:
         self.weights = {}
         rand = np.random.randn
         for idx, neurons in enumerate(layers):
-            if type(neurons) != int:
+            if type(neurons) != int or neurons <= 0:
                 raise TypeError('layers must be a list of positive integers')
             if idx == 0:
                 self.weights['w1'] = rand(neurons, nx) * np.sqrt(2 / nx)
