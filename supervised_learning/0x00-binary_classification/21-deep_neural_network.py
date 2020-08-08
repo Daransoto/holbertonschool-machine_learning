@@ -61,16 +61,15 @@ class DeepNeuralNetwork:
 
     def cost(self, Y, A):
         """ Calculates the cost of the network. """
-        loss = -(Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A))
-        c = np.sum(loss[0]) / Y.shape[1]
+        m = Y.shape[1]
+        c = np.sum(-Y * np.log(A) - (1 - Y) * np.log(1.0000001 - A)) / m
         return c
 
     def evaluate(self, X, Y):
         """ Evaluates the output of the network. """
         A, _ = self.forward_prop(X)
         c = self.cost(Y, A)
-        A = np.where(A >= 0.5, 1, 0)
-        return (A, c)
+        return (np.where(A >= 0.5, 1, 0), c)
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """ Calculates the gradient descent. """
@@ -82,7 +81,8 @@ class DeepNeuralNetwork:
         p_a = self.cache['A{}'.format(last - 1)]
         currW = self.weights[wstr]
         self.__weights[wstr] -= (alpha * np.matmul(dz, p_a.T) / a.shape[1])
-        self.__weights[bstr] -= (alpha * np.sum(dz) / a.shape[1])
+        m = a.shape[1]
+        self.__weights[bstr] -= (alpha * np.sum(dz, axis=1, keepdims=True) / m)
         last -= 1
 
         while last > 0:
