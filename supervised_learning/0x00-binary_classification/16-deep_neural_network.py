@@ -5,13 +5,14 @@ import numpy as np
 
 class DeepNeuralNetwork:
     """ Deep neural network class. """
+
     def __init__(self, nx, layers):
         """ Initializer for the deep neural network. """
         if type(nx) != int:
             raise TypeError('nx must be an integer')
         if nx < 1:
             raise ValueError('nx must be a positive integer')
-        if type(layers) != list:
+        if type(layers) != list or not layers:
             raise TypeError('layers must be a list of positive integers')
         self.L = 0
         self.cache = {}
