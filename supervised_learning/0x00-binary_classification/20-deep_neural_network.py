@@ -14,21 +14,21 @@ class DeepNeuralNetwork:
             raise ValueError('nx must be a positive integer')
         if type(layers) != list or not layers:
             raise TypeError('layers must be a list of positive integers')
-        self.L = 0
-        self.cache = {}
-        self.weights = {}
+        self.__L = 0
+        self.__cache = {}
+        self.__weights = {}
         rand = np.random.randn
         for idx, neurons in enumerate(layers):
             if type(neurons) != int or neurons <= 0:
                 raise TypeError('layers must be a list of positive integers')
             if idx == 0:
-                self.weights['W1'] = rand(neurons, nx) * np.sqrt(2 / nx)
+                self.__weights['W1'] = rand(neurons, nx) * np.sqrt(2 / nx)
             else:
                 p = layers[idx - 1]
                 r = rand(neurons, p)
-                self.weights["W{}".format(idx + 1)] = r * np.sqrt(2 / p)
-            self.L += 1
-            self.weights["b{}".format(idx + 1)] = np.zeros((neurons, 1))
+                self.__weights["W{}".format(idx + 1)] = r * np.sqrt(2 / p)
+            self.__L += 1
+            self.__weights["b{}".format(idx + 1)] = np.zeros((neurons, 1))
 
     @property
     def L(self):
