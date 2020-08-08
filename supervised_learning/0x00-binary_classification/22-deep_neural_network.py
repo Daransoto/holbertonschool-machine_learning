@@ -7,34 +7,28 @@ class DeepNeuralNetwork:
     """ Deep neural network class. """
 
     def __init__(self, nx, layers):
-        """ Init method """
+        """ Initializer for the deep neural network. """
         if type(nx) != int:
             raise TypeError('nx must be an integer')
-        else:
-            if nx < 1:
-                raise ValueError('nx must be a positive integer')
-
-        if type(layers) != list:
+        if nx < 1:
+            raise ValueError('nx must be a positive integer')
+        if type(layers) != list or not layers:
             raise TypeError('layers must be a list of positive integers')
-        else:
-            if any(list(map(lambda x: x <= 0, layers))):
-                raise TypeError('layers must be a list of positive integers')
-            if len(layers) < 1:
-                raise TypeError('layers must be a list of positive integers')
-        self.__L = len(layers)
+        self.__L = 0
         self.__cache = {}
         self.__weights = {}
-        for i in range(len(layers)):
-            key = "W{}".format(i + 1)
-            if i == 0:
-                self.weights[key] = np.random.randn(layers[i],
-                                                    nx)*np.sqrt(2/nx)
-                self.weights["b{}".format(i + 1)] = np.zeros((layers[i], 1))
+        rand = np.random.randn
+        for idx, neurons in enumerate(layers):
+            if type(neurons) != int or neurons <= 0:
+                raise TypeError('layers must be a list of positive integers')
+            if idx == 0:
+                self.weights['W1'] = rand(neurons, nx) * np.sqrt(2 / nx)
             else:
-                self.weights[key] = (np.random.randn(layers[i],
-                                                     layers[i - 1]) *
-                                     np.sqrt(2/layers[i - 1]))
-                self.weights["b{}".format(i + 1)] = np.zeros((layers[i], 1))
+                p = layers[idx - 1]
+                r = rand(neurons, p)
+                self.weights["W{}".format(idx + 1)] = r * np.sqrt(2 / p)
+            self.__L += 1
+            self.weights["b{}".format(idx + 1)] = np.zeros((neurons, 1))
 
     @property
     def L(self):
