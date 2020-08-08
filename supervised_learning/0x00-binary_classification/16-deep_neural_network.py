@@ -22,10 +22,10 @@ class DeepNeuralNetwork:
             if type(neurons) != int or neurons <= 0:
                 raise TypeError('layers must be a list of positive integers')
             if idx == 0:
-                self.weights['w1'] = rand(neurons, nx) * np.sqrt(2 / nx)
+                self.weights['W1'] = rand(neurons, nx) * np.sqrt(2 / nx)
             else:
                 p = layers[idx - 1]
                 r = rand(neurons, p)
-                self.weights["w{}".format(idx + 1)] = r * np.sqrt(2 / p)
+                self.weights["W{}".format(idx + 1)] = r * np.sqrt(2 / p)
             self.L += 1
             self.weights["b{}".format(idx + 1)] = np.zeros((neurons, 1))
