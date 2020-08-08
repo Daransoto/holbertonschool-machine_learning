@@ -22,13 +22,13 @@ class DeepNeuralNetwork:
             if type(neurons) != int or neurons <= 0:
                 raise TypeError('layers must be a list of positive integers')
             if idx == 0:
-                self.__weights['W1'] = rand(neurons, nx) * np.sqrt(2 / nx)
+                self.weights['W1'] = rand(neurons, nx) * np.sqrt(2 / nx)
             else:
                 p = layers[idx - 1]
                 r = rand(neurons, p)
-                self.__weights["W{}".format(idx + 1)] = r * np.sqrt(2 / p)
+                self.weights["W{}".format(idx + 1)] = r * np.sqrt(2 / p)
             self.__L += 1
-            self.__weights["b{}".format(idx + 1)] = np.zeros((neurons, 1))
+            self.weights["b{}".format(idx + 1)] = np.zeros((neurons, 1))
 
     @property
     def L(self):
@@ -54,7 +54,7 @@ class DeepNeuralNetwork:
             p_a = self.cache['A' + str(i)]
             A = 1 / (1 + np.exp(-(np.matmul(w, p_a) + b)))
             self.__cache["A" + str(i + 1)] = A
-        return (A, self.cache)
+        return (self.__cache["A" + str(i)], self.cache)
 
     def cost(self, Y, A):
         """ Calculates the cost of the network. """
@@ -80,5 +80,7 @@ class DeepNeuralNetwork:
                 dz = np.matmul(oldW["W" + str(i + 1)].T, dz) * A * (1 - A)
             dw = np.matmul(dz, cache["A" + str(i - 1)].T) / m
             db = np.sum(dz, axis=1, keepdims=True) / m
-            self.__weights["W" + str(i)] -= (alpha * dw)
-            self.__weights["b" + str(i)] -= (alpha * db)
+            w = self.weights["W" + str(i)]
+            b = self.weights["b" + str(i)]
+            self.__weights["W" + str(i)] = w - alpha * dw
+            self.__weights["b" + str(i)] = b - alpha * db
