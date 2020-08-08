@@ -1,34 +1,35 @@
 #!/usr/bin/env python3
 """ Creates a deep neural network. """
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class DeepNeuralNetwork:
     """ Deep neural network class. """
+
+
     def __init__(self, nx, layers):
         """ Initializer for the deep neural network. """
         if type(nx) != int:
             raise TypeError('nx must be an integer')
         if nx < 1:
             raise ValueError('nx must be a positive integer')
-        if type(layers) != list:
+        if type(layers) != list or not layers:
             raise TypeError('layers must be a list of positive integers')
-        self.__L = 0
-        self.__cache = {}
-        self.__weights = {}
+        self.L = 0
+        self.cache = {}
+        self.weights = {}
         rand = np.random.randn
         for idx, neurons in enumerate(layers):
-            if type(neurons) != int:
+            if type(neurons) != int or neurons <= 0:
                 raise TypeError('layers must be a list of positive integers')
             if idx == 0:
-                self.__weights['w1'] = rand(neurons, nx) * np.sqrt(2 / nx)
+                self.weights['W1'] = rand(neurons, nx) * np.sqrt(2 / nx)
             else:
                 p = layers[idx - 1]
                 r = rand(neurons, p)
-                self.__weights["w{}".format(idx + 1)] = r * np.sqrt(2 / p)
-            self.__L += 1
-            self.__weights["b{}".format(idx + 1)] = np.zeros((neurons, 1))
+                self.weights["W{}".format(idx + 1)] = r * np.sqrt(2 / p)
+            self.L += 1
+            self.weights["b{}".format(idx + 1)] = np.zeros((neurons, 1))
 
     @property
     def L(self):
@@ -48,11 +49,11 @@ class DeepNeuralNetwork:
     def forward_prop(self, X):
         """ Forward propagation of the network. """
         self.__cache['A0'] = X
-        out = np.matmul(self.weights['w1'], X) + self.weights['b1']
+        out = np.matmul(self.weights['W1'], X) + self.weights['b1']
         A = 1 / (1 + np.exp(-out))
         self.__cache['A1'] = A
         for i in range(1, self.L):
-            w = self.weights['w{}'.format(i + 1)]
+            w = self.weights['W{}'.format(i + 1)]
             b = self.weights['b{}'.format(i + 1)]
             out = np.matmul(w, A) + b
             A = 1 / (1 + np.exp(-out))
@@ -75,7 +76,7 @@ class DeepNeuralNetwork:
     def gradient_descent(self, Y, cache, alpha=0.05):
         """ Calculates the gradient descent. """
         last = self.L
-        wstr = 'w{}'.format(last)
+        wstr = 'W{}'.format(last)
         bstr = 'b{}'.format(last)
         a = self.cache['A{}'.format(last)]
         dz = a - Y
@@ -86,7 +87,7 @@ class DeepNeuralNetwork:
         last -= 1
 
         while last > 0:
-            wstr = 'w{}'.format(last)
+            wstr = 'W{}'.format(last)
             bstr = 'b{}'.format(last)
             a = self.cache['A{}'.format(last)]
             dz = np.matmul(currW.T, dz) * a * (1 - a)
