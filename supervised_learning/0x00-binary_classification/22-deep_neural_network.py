@@ -85,7 +85,7 @@ class DeepNeuralNetwork:
             self.__weights["W" + str(i)] = w - alpha * dw
             self.__weights["b" + str(i)] = b - alpha * db
 
-def train(self, X, Y, iterations=5000, alpha=0.05):
+    def train(self, X, Y, iterations=5000, alpha=0.05):
         """ Method to train the neuron """
         if type(iterations) != int:
             raise TypeError('iterations must be an integer')
