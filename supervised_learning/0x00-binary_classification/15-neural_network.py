@@ -80,7 +80,7 @@ class NeuralNetwork:
                                              keepdims=True) / A2.shape[1]
         self.__W2 = self.W2 - alpha * np.matmul(A2 - Y, A1.T) / A2.shape[1]
         self.__b2 = self.b2 - alpha * np.sum(A2 - Y, axis=1, keepdims=True) /\
-                    A2.shape[1]
+            A2.shape[1]
 
     def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True,
               graph=True, step=100):
