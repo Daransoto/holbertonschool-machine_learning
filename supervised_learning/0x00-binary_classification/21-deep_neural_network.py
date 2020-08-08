@@ -54,7 +54,7 @@ class DeepNeuralNetwork:
             p_a = self.cache['A' + str(i)]
             A = 1 / (1 + np.exp(-(np.matmul(w, p_a) + b)))
             self.__cache["A" + str(i + 1)] = A
-        return (self.__cache["A" + str(i)], self.cache)
+        return (self.__cache["A" + str(i + 1)], self.cache)
 
     def cost(self, Y, A):
         """ Calculates the cost of the network. """
