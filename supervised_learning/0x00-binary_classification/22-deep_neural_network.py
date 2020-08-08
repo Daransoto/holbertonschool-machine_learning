@@ -46,15 +46,17 @@ class DeepNeuralNetwork:
         return self.__weights
 
     def forward_prop(self, X):
-        """ Forward propagation of the network. """
+        """ Method fo forward propagation """
         self.__cache['A0'] = X
         for i in range(self.L):
-            w = self.weights['W{}'.format(i + 1)]
-            b = self.weights['b{}'.format(i + 1)]
-            p_a = self.cache['A' + str(i)]
-            A = 1 / (1 + np.exp(-(np.matmul(w, p_a) + b)))
-            self.__cache["A" + str(i + 1)] = A
-        return (self.__cache["A" + str(i)], self.cache)
+            keyA = "A{}".format(i + 1)
+            keyb = "b{}".format(i + 1)
+            keyAo = "A{}".format(i)
+            keyW = "W{}".format(i + 1)
+            self.__cache[keyA] = 1.0 / (1.0 +
+                                        np.exp(-(np.matmul(self.weights[keyW],
+                                                           self.cache[keyAo])
+                                               + self.weights[keyb])))
 
     def cost(self, Y, A):
         """ Calculates the cost of the network. """
@@ -69,21 +71,21 @@ class DeepNeuralNetwork:
         return (np.where(A >= 0.5, 1, 0), c)
 
     def gradient_descent(self, Y, cache, alpha=0.05):
-        """ Method to compute the gradient descent """
-        weights = self.weights.copy()
+        """ Calculates the gradient descent. """
         m = Y.shape[1]
-        for i in range(1, self.L + 1)[::-1]:
-            A = cache["A{}".format(i)]
+        oldW = self.weights.copy()
+        for i in range(self.L, 0, -1):
+            A = cache["A" + str(i)]
             if i == self.L:
-                dZ = A - Y
+                dz = A - Y
             else:
-                dZ = np.matmul(weights["W" + str(i+1)].T, dZ) * A * (1 - A)
-            dW = (1 / m) * np.matmul(dZ, cache["A" + str(i - 1)].T)
-            db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
-            W = self.weights["W" + str(i)] - (alpha * dW)
-            b = self.weights["b" + str(i)] - (alpha * db)
-            self.weights["W" + str(i)] = W
-            self.weights["b" + str(i)] = b
+                dz = np.matmul(oldW["W" + str(i + 1)].T, dz) * A * (1 - A)
+            dw = np.matmul(dz, cache["A" + str(i - 1)].T) / m
+            db = np.sum(dz, axis=1, keepdims=True) / m
+            w = self.weights["W" + str(i)]
+            b = self.weights["b" + str(i)]
+            self.__weights["W" + str(i)] = w - alpha * dw
+            self.__weights["b" + str(i)] = b - alpha * db
 
     def train(self, X, Y, iterations=5000, alpha=0.05):
         """ Trains the network. """
