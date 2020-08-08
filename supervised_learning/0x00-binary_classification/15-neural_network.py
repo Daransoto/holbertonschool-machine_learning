@@ -55,35 +55,32 @@ class NeuralNetwork:
 
     def forward_prop(self, X):
         """ Forward propagation for the neural network. """
-        out_1 = np.matmul(self.W1, X) + self.b1
-        self.__A1 = 1/(1 + np.exp(-out_1))
-        out = np.matmul(self.W2, self.A1) + self.b2
-        self.__A2 = 1/(1 + np.exp(-out))
+        self.__A1 = 1/(1 + np.exp(-(np.matmul(self.W1, X) + self.b1)))
+        self.__A2 = 1/(1 + np.exp(-(np.matmul(self.W2, self.A1) + self.b2)))
         return (self.A1, self.A2)
 
     def cost(self, Y, A):
         """ Calculates the cost of the network. """
-        loss = -(Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A))
-        c = np.sum(loss[0]) / Y.shape[1]
+        m = Y.shape[1]
+        c = np.sum(-Y * np.log(A) - (1 - Y) * np.log(1.0000001 - A)) / m
         return c
 
     def evaluate(self, X, Y):
         """ Evaluates the output of the network. """
         A_h, A = self.forward_prop(X)
         c = self.cost(Y, A)
-        A = np.where(A >= 0.5, 1, 0)
-        return (A, c)
+        return (np.where(A >= 0.5, 1, 0), c)
 
     def gradient_descent(self, X, Y, A1, A2, alpha=0.05):
         """ Calculates the gradient descent. """
-        oldW2 = self.W2
-        self.__W2 = self.W2 - alpha * np.matmul(A2 - Y, A1.T) / A2.shape[1]
-        self.__b2 = self.b2 - alpha * np.sum(A2 - Y) / A2.shape[1]
-        dA1 = np.matmul(oldW2.T, (A2 - Y))
+        dA1 = np.matmul(self.W2.T, (A2 - Y))
         self.__W1 = self.W1 - alpha * np.matmul(dA1 * A1 * (1 - A1), X.T) /\
             A2.shape[1]
         self.__b1 = self.b1 - alpha * np.sum(dA1 * A1 * (1 - A1), axis=1,
                                              keepdims=True) / A2.shape[1]
+        self.__W2 = self.W2 - alpha * np.matmul(A2 - Y, A1.T) / A2.shape[1]
+        self.__b2 = self.b2 - alpha * np.sum(A2 - Y, axis=1, keepdims=True) /\
+                    A2.shape[1]
 
     def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True,
               graph=True, step=100):
