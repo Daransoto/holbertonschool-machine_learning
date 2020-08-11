@@ -125,22 +125,3 @@ class DeepNeuralNetwork:
             plt.title('Training Cost')
             plt.show()
         return (A, c)
-
-    def save(self, filename):
-        """ Saves the instance object to a file in pickle format. """
-        if not filename.endswith(".pkl"):
-            filename += ".pkl"
-        with open(filename, 'wb') as f:
-            pickle.dump(self, f)
-            f.close()
-
-    @staticmethod
-    def load(filename):
-        """ Loads a pickled DeepNeuralNetwork object. """
-        try:
-            with open(filename, 'rb') as f:
-                loaded = pickle.load(f)
-                f.close()
-            return loaded
-        except FileNotFoundError:
-            return None
