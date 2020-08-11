@@ -5,8 +5,9 @@ import numpy as np
 
 def one_hot_encode(Y, classes):
     """ one hot encoding of Y array with classes amount of classes. """
-    if type(Y) != np.ndarray or type(classes) != int or classes <= 0
-    or classes < np.max(Y) or any(map(Y, lambda x: type(x) != int or x < 0)):
+    if type(Y) != np.ndarray or type(classes) != int or classes <= 0\
+       or classes < np.max(Y) or\
+       any(map(Y, lambda x: type(x) != int or x < 0)):
         return None
     ans = np.eye(classes)[Y]
     return ans.T
