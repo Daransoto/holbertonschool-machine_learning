@@ -24,13 +24,13 @@ class DeepNeuralNetwork:
             if type(neurons) != int or neurons <= 0:
                 raise TypeError('layers must be a list of positive integers')
             if idx == 0:
-                self.__weights['W1'] = rand(neurons, nx) * np.sqrt(2 / nx)
+                self.weights['W1'] = rand(neurons, nx) * np.sqrt(2 / nx)
             else:
                 p = layers[idx - 1]
                 r = rand(neurons, p)
-                self.__weights["W{}".format(idx + 1)] = r * np.sqrt(2 / p)
+                self.weights["W{}".format(idx + 1)] = r * np.sqrt(2 / p)
             self.__L += 1
-            self.__weights["b{}".format(idx + 1)] = np.zeros((neurons, 1))
+            self.weights["b{}".format(idx + 1)] = np.zeros((neurons, 1))
 
     @property
     def L(self):
@@ -50,54 +50,42 @@ class DeepNeuralNetwork:
     def forward_prop(self, X):
         """ Forward propagation of the network. """
         self.__cache['A0'] = X
-        out = np.matmul(self.weights['W1'], X) + self.weights['b1']
-        A = 1 / (1 + np.exp(-out))
-        self.__cache['A1'] = A
-        for i in range(1, self.L):
+        for i in range(self.L):
             w = self.weights['W{}'.format(i + 1)]
             b = self.weights['b{}'.format(i + 1)]
-            out = np.matmul(w, A) + b
-            A = 1 / (1 + np.exp(-out))
-            self.__cache['A{}'.format(i + 1)] = A
-        return (A, self.cache)
+            p_a = self.cache['A' + str(i)]
+            A = 1 / (1 + np.exp(-(np.matmul(w, p_a) + b)))
+            self.__cache["A" + str(i + 1)] = A
+        return (self.__cache["A" + str(i + 1)], self.cache)
 
     def cost(self, Y, A):
         """ Calculates the cost of the network. """
-        loss = -(Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A))
-        c = np.sum(loss[0]) / Y.shape[1]
+        m = Y.shape[1]
+        c = np.sum(-Y * np.log(A) - (1 - Y) * np.log(1.0000001 - A)) / m
         return c
 
     def evaluate(self, X, Y):
         """ Evaluates the output of the network. """
         A, _ = self.forward_prop(X)
         c = self.cost(Y, A)
-        A = np.where(A >= 0.5, 1, 0)
-        return (A, c)
+        return (np.where(A >= 0.5, 1, 0), c)
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """ Calculates the gradient descent. """
-        last = self.L
-        wstr = 'W{}'.format(last)
-        bstr = 'b{}'.format(last)
-        a = self.cache['A{}'.format(last)]
-        dz = a - Y
-        p_a = self.cache['A{}'.format(last - 1)]
-        currW = self.weights[wstr]
-        self.__weights[wstr] -= (alpha * np.matmul(dz, p_a.T) / a.shape[1])
-        self.__weights[bstr] -= (alpha * np.sum(dz) / a.shape[1])
-        last -= 1
-
-        while last > 0:
-            wstr = 'W{}'.format(last)
-            bstr = 'b{}'.format(last)
-            a = self.cache['A{}'.format(last)]
-            dz = np.matmul(currW.T, dz) * a * (1 - a)
-            p_a = self.cache['A{}'.format(last - 1)]
-            currW = self.weights[wstr]
-            self.__weights[wstr] -= (alpha * np.matmul(dz, p_a.T) / a.shape[1])
-            self.__weights[bstr] -= (alpha * np.sum(dz, axis=1, keepdims=True)
-                                     / a.shape[1])
-            last -= 1
+        m = Y.shape[1]
+        oldW = self.weights.copy()
+        for i in range(self.L, 0, -1):
+            A = cache["A" + str(i)]
+            if i == self.L:
+                dz = A - Y
+            else:
+                dz = np.matmul(oldW["W" + str(i + 1)].T, dz) * A * (1 - A)
+            dw = np.matmul(dz, cache["A" + str(i - 1)].T) / m
+            db = np.sum(dz, axis=1, keepdims=True) / m
+            w = self.weights["W" + str(i)]
+            b = self.weights["b" + str(i)]
+            self.__weights["W" + str(i)] = w - alpha * dw
+            self.__weights["b" + str(i)] = b - alpha * db
 
     def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True,
               graph=True, step=100):
