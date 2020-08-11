@@ -88,7 +88,7 @@ class DeepNeuralNetwork:
             self.__weights["b" + str(i)] = b - alpha * db
 
     def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True,
-              graph=True, step=100):
+              graph=True, step=1):
         """ Trains the network. """
         if type(iterations) != int:
             raise TypeError('iterations must be an integer')
