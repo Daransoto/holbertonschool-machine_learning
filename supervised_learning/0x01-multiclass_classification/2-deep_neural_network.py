@@ -88,7 +88,7 @@ class DeepNeuralNetwork:
             self.__weights["b" + str(i)] = b - alpha * db
 
     def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True,
-              graph=True, step=1):
+              graph=True, step=100):
         """ Trains the network. """
         if type(iterations) != int:
             raise TypeError('iterations must be an integer')
@@ -116,7 +116,8 @@ class DeepNeuralNetwork:
             iteration += 1
             self.gradient_descent(Y, self.cache, alpha)
         A, c = self.evaluate(X, Y)
-        print('Cost after {} iterations: {}'.format(iteration, c))
+        if verbose:
+            print('Cost after {} iterations: {}'.format(iteration, c))
         if graph:
             y_data.append(c)
             plt.plot(x_data, y_data, 'b')
