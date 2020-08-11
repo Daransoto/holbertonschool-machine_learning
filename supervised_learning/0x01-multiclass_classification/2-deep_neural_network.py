@@ -125,3 +125,12 @@ class DeepNeuralNetwork:
             plt.title('Training Cost')
             plt.show()
         return (A, c)
+
+    def save(self, filename):
+        """ sdfsdfsdf """
+        pass
+
+    @staticmethod
+    def load(filename):
+        """ sdfsdfsdf """
+        pass
