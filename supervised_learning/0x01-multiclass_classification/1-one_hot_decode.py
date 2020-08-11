@@ -5,4 +5,6 @@ import numpy as np
 
 def one_hot_decode(one_hot):
     """ one hot decode of one_hot """
+    if type(one_hot) != np.ndarray:
+        return None
     return np.argmax(one_hot, axis=0)
