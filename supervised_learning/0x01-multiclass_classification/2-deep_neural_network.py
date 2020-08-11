@@ -127,8 +127,12 @@ class DeepNeuralNetwork:
         return (A, c)
 
     def save(self, filename):
-        """ sdfsdfsdf """
-        pass
+        """ Saves the instance object to a file in pickle format. """
+        if not filename.endswith(".pkl"):
+            filename += ".pkl"
+        with open(filename, 'wb') as f:
+            pickle.dump(self, f)
+            f.close()
 
     @staticmethod
     def load(filename):
