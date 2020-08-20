@@ -54,7 +54,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                 while (end <= m):
                     sess.run(train_op, feed_dict={x: newX[start:end],
                                                   y: newY[start:end]})
-                    if (step + 1) % 100 == 0:
+                    if step % 100 == 0 and step:
                         step_acc = sess.run(accuracy,
                                             feed_dict={x: newX[start:end],
                                                        y: newY[start:end]})
