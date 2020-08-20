@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """ This module contains the function create_momentum_op. """
-import numpy as np
+import tensorflow as tf
 
 
 def create_momentum_op(loss, alpha, beta1):
