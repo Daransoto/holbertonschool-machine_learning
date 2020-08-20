@@ -54,14 +54,14 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                 while (end <= m):
                     sess.run(train_op, feed_dict={x: newX[start:end],
                                                   y: newY[start:end]})
-                    if step % 100 == 0 and step:
+                    if (step + 1) % 100 == 0:
                         step_acc = sess.run(accuracy,
                                             feed_dict={x: newX[start:end],
                                                        y: newY[start:end]})
                         step_cost = sess.run(loss,
                                              feed_dict={x: newX[start:end],
                                                         y: newY[start:end]})
-                        print("\tStep {}:".format(step))
+                        print("\tStep {}:".format(step + 1))
                         print("\t\tCost: {}".format(step_cost))
                         print("\t\tAccuracy: {}".format(step_acc))
                     start = end
