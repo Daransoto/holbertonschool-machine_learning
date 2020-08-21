@@ -17,7 +17,7 @@ def batch_norm(Z, gamma, beta, epsilon):
     epsilon is a small number used to avoid division by zero.
     Returns: the normalized Z matrix.
     """
-    mean = np.mean(Z)
-    var = np.var(Z)
+    mean = np.mean(Z, axis=0)
+    var = np.var(Z, axis=0)
     newZ = (Z - mean) / np.sqrt(var + epsilon)
     return (gamma * newZ) + beta
