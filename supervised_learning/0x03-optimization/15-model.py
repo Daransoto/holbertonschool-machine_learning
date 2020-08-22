@@ -105,6 +105,8 @@ def create_batch_norm_layer(prev, n, activation):
      the layer.
     Returns: a tensor of the activated output for the layer.
     """
+    if not activation:
+        return create_layer(prev, n, activation)
     He = tf.contrib.layers.variance_scaling_initializer(mode="FAN_AVG")
     layer = tf.layers.Dense(units=n, kernel_initializer=He, name='layer')
     epsilon = 1e-8
@@ -184,3 +186,11 @@ def shuffle_data(X, Y):
     """
     indices = np.random.permutation(X.shape[0])
     return X[indices], Y[indices]
+
+
+def create_layer(prev, n, activation):
+    """ Creates a layer of a neural network. """
+    he = tf.contrib.layers.variance_scaling_initializer(mode="FAN_AVG")
+    layer = tf.layers.Dense(units=n, activation=activation, name='layer',
+                            kernel_initializer=he)
+    return layer(prev)
