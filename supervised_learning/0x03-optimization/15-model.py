@@ -35,7 +35,7 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
     X_valid = Data_valid[0]
     Y_valid = Data_valid[1]
     x, y = create_placeholders(X_train.shape[1], Y_train.shape[1])
-    y_pred = forward_prop(x, layer_sizes, activations)
+    y_pred = forward_prop(x, layers, activations)
     accuracy = calculate_accuracy(y, y_pred)
     loss = calculate_loss(y, y_pred)
     global_step = tf.Variable(0, trainable=False)
