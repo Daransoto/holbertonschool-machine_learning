@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ This module contains the function model. """
 import tensorflow as tf
+import numpy as np
 
 
 def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
