@@ -30,8 +30,10 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
     save_path is the path where the model should be saved to.
     Returns: the path where the model was saved.
     """
-    X_train, Y_train = *Data_train
-    X_valid, Y_valid = *Data_valid
+    X_train = Data_train[0]
+    Y_train = Data_train[1]
+    X_valid = Data_valid[0]
+    Y_valid = Data_valid[1]
     x, y = create_placeholders(X_train.shape[1], Y_train.shape[1])
     y_pred = forward_prop(x, layer_sizes, activations)
     accuracy = calculate_accuracy(y, y_pred)
