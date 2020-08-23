@@ -46,22 +46,22 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
             print("\tTraining Accuracy: {}".format(train_acc))
             print("\tValidation Cost: {}".format(val_loss))
             print("\tValidation Accuracy: {}".format(val_acc))
-            if i != epochs:
+            if i < epochs:
                 newX, newY = shuffle_data(X_train, Y_train)
                 start = 0
                 end = batch_size
-                step = 0
+                step = 1
                 while (end <= m):
                     sess.run(train_op, feed_dict={x: newX[start:end],
                                                   y: newY[start:end]})
-                    if (step + 1) % 100 == 0:
+                    if step % 100 == 0:
                         step_acc = sess.run(accuracy,
                                             feed_dict={x: newX[start:end],
                                                        y: newY[start:end]})
                         step_cost = sess.run(loss,
                                              feed_dict={x: newX[start:end],
                                                         y: newY[start:end]})
-                        print("\tStep {}:".format(step + 1))
+                        print("\tStep {}:".format(step))
                         print("\t\tCost: {}".format(step_cost))
                         print("\t\tAccuracy: {}".format(step_acc))
                     start = end
