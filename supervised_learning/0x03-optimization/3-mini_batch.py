@@ -68,7 +68,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     if (end + batch_size <= m):
                         end += batch_size
                     else:
-                        end += m % batch_size
+                        end += (m % batch_size)
                     step += 1
 
         return saver.save(sess, save_path)
