@@ -63,6 +63,8 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
             print("\tValidation Cost: {}".format(val_loss))
             print("\tValidation Accuracy: {}".format(val_acc))
             if i < epochs:
+                sess.run(global_step.assign(epoch))
+                sess.run(alpha)
                 newX, newY = shuffle_data(X_train, Y_train)
                 m = newX.shape[0]
                 start = 0
