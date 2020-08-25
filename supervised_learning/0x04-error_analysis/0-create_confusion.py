@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """This module contains the function create_confusion_matrix."""
-
 import numpy as np
 
 
