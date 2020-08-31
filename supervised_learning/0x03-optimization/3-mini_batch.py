@@ -26,7 +26,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     save_path is the path to where the model should be saved after training.
     Returns: the path where the model was saved
     """
-    m = X_train.shape[0]
     saved = tf.train.import_meta_graph("{}.meta".format(load_path))
     saver = tf.train.Saver()
     with tf.Session() as sess:
@@ -48,10 +47,14 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
             print("\tValidation Accuracy: {}".format(val_acc))
             if i < epochs:
                 newX, newY = shuffle_data(X_train, Y_train)
+                m = newX.shape[0]
                 start = 0
-                end = batch_size
                 step = 1
-                while (end <= m):
+                while m > 0:
+                    if m - batch_size < 0:
+                        end = newX.shape[0]
+                    else:
+                        end = start + batch_size
                     sess.run(train_op, feed_dict={x: newX[start:end],
                                                   y: newY[start:end]})
                     if step % 100 == 0:
@@ -64,11 +67,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                         print("\tStep {}:".format(step))
                         print("\t\tCost: {}".format(step_cost))
                         print("\t\tAccuracy: {}".format(step_acc))
-                    start = end
-                    if (end + batch_size <= m):
-                        end += batch_size
-                    else:
-                        end += m % batch_size
+                    start += batch_size
                     step += 1
-
+                    m -= batch_size
         return saver.save(sess, save_path)

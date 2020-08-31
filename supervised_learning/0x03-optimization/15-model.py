@@ -35,7 +35,6 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
     Y_train = Data_train[1]
     X_valid = Data_valid[0]
     Y_valid = Data_valid[1]
-    m = X_train.shape[0]
     x, y = create_placeholders(X_train.shape[1], Y_train.shape[1])
     y_pred = forward_prop(x, layers, activations)
     accuracy = calculate_accuracy(y, y_pred)
@@ -63,15 +62,21 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
             print("\tTraining Accuracy: {}".format(train_acc))
             print("\tValidation Cost: {}".format(val_loss))
             print("\tValidation Accuracy: {}".format(val_acc))
-            if i != epochs:
+            if i < epochs:
+                sess.run(global_step.assign(i))
+                sess.run(alpha)
                 newX, newY = shuffle_data(X_train, Y_train)
+                m = newX.shape[0]
                 start = 0
-                end = batch_size
-                step = 0
-                while (end <= m):
+                step = 1
+                while m > 0:
+                    if m - batch_size < 0:
+                        end = newX.shape[0]
+                    else:
+                        end = start + batch_size
                     sess.run(train_op, feed_dict={x: newX[start:end],
                                                   y: newY[start:end]})
-                    if step % 100 == 0 and step:
+                    if step % 100 == 0:
                         step_acc = sess.run(accuracy,
                                             feed_dict={x: newX[start:end],
                                                        y: newY[start:end]})
@@ -81,13 +86,9 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
                         print("\tStep {}:".format(step))
                         print("\t\tCost: {}".format(step_cost))
                         print("\t\tAccuracy: {}".format(step_acc))
-                    start = end
-                    if (end + batch_size <= m):
-                        end += batch_size
-                    else:
-                        end += m % batch_size
+                    start += batch_size
                     step += 1
-
+                    m -= batch_size
         return saver.save(sess, save_path)
 
 
