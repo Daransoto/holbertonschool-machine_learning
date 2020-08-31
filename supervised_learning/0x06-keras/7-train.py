@@ -4,8 +4,9 @@ import tensorflow.keras as K
 
 
 def train_model(network, data, labels, batch_size, epochs,
-                validation_data=None, early_stopping=False,
-                patience=0, verbose=True, shuffle=False):
+                validation_data=None, early_stopping=False, patience=0,
+                learning_rate_decay=False, alpha=0.1, decay_rate=1,
+                verbose=True, shuffle=False):
     """
     Trains a model using mini-batch gradient descent.
     network is the model to train.
@@ -19,17 +20,35 @@ def train_model(network, data, labels, batch_size, epochs,
     early_stopping is a boolean that indicates whether early stopping should be
      used, only if validation_data exists, and based on validation loss.
     patience is the patience used for early stopping.
+    learning_rate_decay is a boolean that indicates whether learning rate
+     decay should be used (if vatlidation_data exists and with the inverse time
+     decay in a stepwise fashion, printing a message on each update).
+    alpha is the initial learning rate.
+    decay_rate is the decay rate.
     verbose is a boolean that determines if output should be printed during
      training.
     shuffle is a boolean that determines whether to shuffle the batches every
      epoch.
     Returns: the History object generated after training the model.
     """
+    def lrd(epoch):
+        """ Function for learning rate decay. """
+        return alpha / (1 + decay_rate * epoch)
+
     callbacks = []
-    if validation_data and early_stopping:
-        callbacks.append(K.callbacks.EarlyStopping(monitor='val_loss',
-                                                   mode='min',
-                                                   patience=patience))
+
+    if validation_data:
+
+        if early_stopping:
+
+            callbacks.append(K.callbacks.EarlyStopping(monitor='val_loss',
+                                                       mode='min',
+                                                       patience=patience))
+
+        if learning_rate_decay:
+
+            callbacks.append(K.callbacks.LearningRateScheduler(lrd, verbose=1))
+
     return network.fit(data, labels, batch_size=batch_size, epochs=epochs,
                        verbose=verbose, shuffle=shuffle,
                        validation_data=validation_data, callbacks=callbacks)
