@@ -15,7 +15,7 @@ def save_config(network, filename):
     return None
 
 
-def load_weights(network, filename):
+def load_config(network, filename):
     """
     Loads a model with a specific configuration.
     filename is the path of the file containing the models configuration in
