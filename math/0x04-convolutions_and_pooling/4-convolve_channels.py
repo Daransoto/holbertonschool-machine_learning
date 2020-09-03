@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """ This module contains the function convolve_channels. """
 import numpy as np
-from math import ceil, floor
 
 
 def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
@@ -35,13 +34,13 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
     if type(padding) == tuple:
         ph, pw = padding
     elif padding == 'same':
-        ph = ceil(((imh - 1) * sh - imh + kh) / 2)
-        pw = ceil(((imw - 1) * sw - imw + kw) / 2)
+        ph = int(((imh - 1) * sh - imh + kh) / 2) + 1
+        pw = int(((imw - 1) * sw - imw + kw) / 2) + 1
     else:
         ph = pw = 0
     padded = np.pad(images, ((0,), (ph,), (pw,), (0,)))
-    ansh = floor((imh + 2 * ph - kh) / sh + 1)
-    answ = floor((imw + 2 * pw - kw) / sw + 1)
+    ansh = int((imh + 2 * ph - kh) / sh + 1)
+    answ = int((imw + 2 * pw - kw) / sw + 1)
     ans = np.zeros((m, ansh, answ))
     for i in range(ansh):
         for j in range(answ):
