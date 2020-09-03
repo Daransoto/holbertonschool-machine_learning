@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """ This module contains the function pool. """
 import numpy as np
-from math import ceil, floor
 
 
 def pool(images, kernel_shape, stride, mode='max'):
@@ -32,8 +31,8 @@ def pool(images, kernel_shape, stride, mode='max'):
         pool = np.max
     else:
         pool = np.average
-    ansh = floor((imh - kh) / sh + 1)
-    answ = floor((imw - kw) / sw + 1)
+    ansh = int((imh + 2 * ph - kh) / sh + 1)
+    answ = int((imw + 2 * pw - kw) / sw + 1)
     ans = np.zeros((m, ansh, answ, c))
     for i in range(ansh):
         for j in range(answ):
