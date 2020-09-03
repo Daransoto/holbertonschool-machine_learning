@@ -31,8 +31,8 @@ def pool(images, kernel_shape, stride, mode='max'):
         pool = np.max
     else:
         pool = np.average
-    ansh = int((imh + 2 * ph - kh) / sh + 1)
-    answ = int((imw + 2 * pw - kw) / sw + 1)
+    ansh = int((imh - kh) / sh + 1)
+    answ = int((imw - kw) / sw + 1)
     ans = np.zeros((m, ansh, answ, c))
     for i in range(ansh):
         for j in range(answ):
