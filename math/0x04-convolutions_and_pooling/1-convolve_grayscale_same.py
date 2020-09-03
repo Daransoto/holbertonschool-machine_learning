@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """ This module contains the function convolve_grayscale_same. """
 import numpy as np
-from math import ceil, floor
 
 
 def convolve_grayscale_same(images, kernel):
@@ -20,8 +19,8 @@ def convolve_grayscale_same(images, kernel):
     """
     kh, kw = kernel.shape
     m, imh, imw = images.shape
-    ph = ceil((kh - 1) / 2)
-    pw = ceil((kw - 1) / 2)
+    ph = (kh - 1) / 2
+    pw = (kw - 1) / 2
     padded = np.pad(images, ((0,), (ph,), (pw,)))
     ans = np.zeros((m, imh, imw))
     for i in range(imh):
