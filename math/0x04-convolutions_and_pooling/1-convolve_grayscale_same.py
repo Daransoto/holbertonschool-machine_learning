@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ This module contains the function convolve_grayscale_same. """
 import numpy as np
-from math import ceil
+from math import ceil, floor
 
 
 def convolve_grayscale_same(images, kernel):
