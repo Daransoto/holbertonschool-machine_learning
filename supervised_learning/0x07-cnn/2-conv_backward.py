@@ -59,5 +59,5 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                     dA[i, x: x + kh, y: y + kw, :] += currZ * W[:, :, :, l]
                     dW[:, :, :, l] += currP * currZ
     if padding == 'same':
-        dA = dA[:, ph:h_prev, pw:w_prev, :]
+        dA = dA[:, ph:-ph, pw:-pw, :]
     return dA, dW, db
