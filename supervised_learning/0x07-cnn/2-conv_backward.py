@@ -43,7 +43,8 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
         pw = int(((w_prev - 1) * sw - w_prev + kw) / 2)
     else:
         ph = pw = 0
-    padded = np.pad(A_prev, ((0,), (ph,), (pw,), (0,)))
+    padded = np.pad(A_prev, ((0,), (ph,), (pw,), (0,)), mode= 'constant',
+                    constant_values=0)
     db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
     dA = np.zeros(A_sh)
     dW = np.zeros(W_sh)
