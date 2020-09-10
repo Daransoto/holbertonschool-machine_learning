@@ -39,8 +39,8 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     sh, sw = stride
     _, h_new, w_new, _ = dZ.shape
     if padding == 'same':
-        ph = np.ceil(((h_prev - 1) * sh - h_prev + kh) / 2)
-        pw = np.ceil(((w_prev - 1) * sw - w_prev + kw) / 2)
+        ph = int(((h_prev - 1) * sh - h_prev + kh) / 2)
+        pw = int(((w_prev - 1) * sw - w_prev + kw) / 2)
     else:
         ph = pw = 0
     padded = np.pad(A_prev, ((0,), (ph,), (pw,), (0,)))
