@@ -14,8 +14,10 @@ This folder has projects about supervised learning like deep neural networks.
 | [0x01-multiclass_classification](0x01-multiclass_classification) | Deep neural network for multiclass classification. |
 | [0x02-tensorflow](0x02-tensorflow) | Using tensorflow to create neural networks. |
 | [0x03-optimization](0x03-optimization) | Optimizing deep neural network algorithms. |
+| [0x04-error_analysis](0x04-error_analysis) | Error analysis techniques. |
 | [0x05-regularization](0x05-regularization) | Applying regularization methods. |
 | [0x06-keras](0x06-keras) | Using keras to create neural networks. |
+| [0x07-cnn](0x07-cnn) | Creating convolutional neural networks. |
 | [data](data) | Datasets for binary classification of handwritten digits. |
 
 

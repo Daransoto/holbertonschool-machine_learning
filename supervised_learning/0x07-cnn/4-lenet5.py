@@ -43,11 +43,11 @@ def lenet5(x, y):
     dense2 = tf.layers.Dense(units=84, activation=tf.nn.relu,
                              kernel_initializer=He)(dense1)
     dense3 = tf.layers.Dense(units=10, kernel_initializer=He)(dense2)
-    loss = tf.losses.softmax_cross_entropy(y, dense3)
     y_pred = tf.nn.softmax(dense3)
-    train_op = tf.train.AdamOptimizer().minimize(loss)
-    y_pred_tag = tf.argmax(y_pred, 1)
+    y_pred_tag = tf.argmax(dense3, 1)
     y_tag = tf.argmax(y, 1)
     comp = tf.equal(y_pred_tag, y_tag)
-    acc = tf.reduce_mean(tf.cast(equal, tf.float32))
+    acc = tf.reduce_mean(tf.cast(comp, tf.float32))
+    loss = tf.losses.softmax_cross_entropy(y, dense3)
+    train_op = tf.train.AdamOptimizer().minimize(loss)
     return y_pred, train_op, loss, acc
