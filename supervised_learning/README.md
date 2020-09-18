@@ -18,6 +18,7 @@ This folder has projects about supervised learning like deep neural networks.
 | [0x05-regularization](0x05-regularization) | Applying regularization methods. |
 | [0x06-keras](0x06-keras) | Using keras to create neural networks. |
 | [0x07-cnn](0x07-cnn) | Creating convolutional neural networks. |
+| [0x08-deep_cnns](0x08-deep_cnns) | Creating deep convolutional neural networks. |
 | [data](data) | Datasets for binary classification of handwritten digits. |
 
 
