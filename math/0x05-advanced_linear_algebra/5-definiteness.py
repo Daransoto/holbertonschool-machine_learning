@@ -19,6 +19,8 @@ def definiteness(matrix):
     """
     if type(matrix) != np.ndarray:
         raise TypeError('matrix must be a numpy.ndarray')
+    if matrix.shape[0] != matrix.shape[1]:
+        return None
     try:
         eig = np.linalg.eigvals(matrix)
         if all(eig > 0):
@@ -29,8 +31,6 @@ def definiteness(matrix):
             return 'Negative definite'
         if all(eig <= 0):
             return 'Negative semi-definite'
-        if not any(eig == 0):
-            return 'Indefinite'
-        return None
+        return 'Indefinite'
     except Exception:
         return None
