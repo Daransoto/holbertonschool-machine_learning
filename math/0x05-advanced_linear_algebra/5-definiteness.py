@@ -19,7 +19,7 @@ def definiteness(matrix):
     """
     if type(matrix) != np.ndarray:
         raise TypeError('matrix must be a numpy.ndarray')
-    if matrix.shape[0] != matrix.shape[1]:
+    if matrix.shape[0] != matrix.shape[1] or (matrix != matrix.T).any():
         return None
     try:
         eig = np.linalg.eigvals(matrix)
