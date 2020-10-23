@@ -15,6 +15,7 @@ This folder contains math functions created to practice with mathematical topics
 | [0x02-calculus](0x02-calculus) | Solution to some calculus questions and functions to derivate and integrate polynomials. |
 | [0x03-probability](0x03-probability) | Probability distribution classes (Poisson, exponential, normal, and binomial). |
 | [0x04-convolutions_and_pooling](0x04-convolutions_and_pooling) | Convolutions and pooling operations. |
+| [0x05-advanced_linear_algebra](0x05-advanced_linear_algebra) | Advanced linear algebra functions. |
 
 
 ## Author
