@@ -23,13 +23,14 @@ def definiteness(matrix):
         eig = np.linalg.eigvals(matrix)
         if all(eig > 0):
             return 'Positive definite'
-        elif all(eig >= 0):
+        if all(eig >= 0):
             return 'Positive semi-definite'
-        elif all(eig < 0):
+        if all(eig < 0):
             return 'Negative definite'
-        elif all(eig <= 0):
+        if all(eig <= 0):
             return 'Negative semi-definite'
-        else:
+        if not any(eig == 0):
             return 'Indefinite'
+        return None
     except Exception:
         return None
